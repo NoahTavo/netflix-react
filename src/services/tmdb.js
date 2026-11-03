@@ -1,8 +1,14 @@
-import axios from "axios";
-export const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
-export const POSTER_BASE = "https://image.tmdb.org/t/p/w342";
-// Une "instance" axios : l'adresse et la clé sont écrites une seule fois
 
+import axios from "axios";
+
+// Images TMDB
+export const IMAGE_BASE =
+    "https://image.tmdb.org/t/p/original";
+
+export const POSTER_BASE =
+    "https://image.tmdb.org/t/p/w342";
+
+// Configuration de l'API TMDB
 const api = axios.create({
     baseURL: "https://api.themoviedb.org/3",
     params: {
@@ -11,7 +17,7 @@ const api = axios.create({
     },
 });
 
-// Les "adresses" des listes de films/séries qu'on veut afficher
+// Endpoints des films et séries
 export const ENDPOINTS = {
     trending: "/trending/all/week",
     netflixOriginals: "/discover/tv?with_networks=213",
@@ -23,19 +29,26 @@ export const ENDPOINTS = {
     documentary: "/discover/movie?with_genres=99",
 };
 
-// Récupère une liste (renvoie un tableau de films ou de séries)
+// Récupération des listes
 export async function fetchList(endpoint) {
     const { data } = await api.get(endpoint);
-    return data.results;
+
+    return data.results || [];
 }
 
-// Récupère la fiche détaillée. type = "movie" ou "tv"
+// Récupération des détails d'un film ou d'une série
 export async function fetchDetails(type, id) {
     const { data } = await api.get(`/${type}/${id}`);
+
     return data;
 }
 
-// Un film a "title", une série a "name"
+// Récupération du titre
 export function getTitle(item) {
-    return item.title || item.name || item.original_name || "Sans titre";
+    return (
+        item.title ||
+        item.name ||
+        item.original_name ||
+        "Sans titre"
+    );
 }

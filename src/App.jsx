@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { fetchList, ENDPOINTS } from "./services/tmdb";
+import { Route, Routes } from "react-router-dom";
+import NetflixApp from "./components/NetflixApp";
 export default function App() {
-    useEffect(() => {
-        fetchList(ENDPOINTS.trending).then(console.log);
-    }, []);
-    return <h1>Netflix Clone</h1>;
+    return (
+        <Routes>
+            <Route path="/" element={<NetflixApp />} />
+        </Routes>
+    );
 }
